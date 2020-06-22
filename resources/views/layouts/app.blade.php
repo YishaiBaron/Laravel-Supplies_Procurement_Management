@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,12 +29,12 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
+                        
                     </button>
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'One-to-many Relationships Demo') }}
-                    </a>
+Company Name                    </a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
@@ -41,12 +45,11 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="{{ route('companies.index') }}">Companies</a></li>
-                        <li><a href="{{ route('companies.index') }}?eager=1">Companies (Eager Loading)</a></li>
-                        <li><a href="{{ route('companies.index') }}?big=1">Big Companies</a></li>
-                        <li><a href="{{ route('employees.index') }}">Employees</a></li>
-                        <li><a href="{{ route('companies.create') }}">Add Company</a></li>
-                        <li><a href="{{ route('employees.create') }}">Add Employee</a></li>
+                        <li><a href="{{ route('companies.index') }}">Customers</a></li>
+                      <li><a href="{{ route('companies.create') }}">Add Customer</a></li>
+                        <li><a href="{{ route('employees.create') }}">Add Diversity to Customer</a></li>
+
+
                     </ul>
                 </div>
             </div>

@@ -39,7 +39,8 @@ class EmployeesController extends Controller
     public function store(Request $request)
     {
         Employee::create($request->all());
-        return redirect()->route('employees.index');
+        return redirect()->route('companies.index');
+
     }
 
     /**
@@ -85,5 +86,7 @@ class EmployeesController extends Controller
     public function destroy($id)
     {
         //
+        
+
     }
 }

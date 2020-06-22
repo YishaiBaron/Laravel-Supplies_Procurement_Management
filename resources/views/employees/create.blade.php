@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Add New Employee</div>
+                    <div class="panel-heading">Add New Diversity Customer</div>
 
                     <div class="panel-body">
                         <form class="form-horizontal" method="POST" action="{{ route('employees.store') }}">
@@ -25,22 +25,10 @@
                                 </div>
                             </div>
 
-                            <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                                <label for="email" class="col-md-4 control-label">E-Mail Address</label>
-
-                                <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
-
-                                    @if ($errors->has('email'))
-                                        <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
+                          
 
                             <div class="form-group{{ $errors->has('company_id') ? ' has-error' : '' }}">
-                                <label for="company_id" class="col-md-4 control-label">Company</label>
+                                <label for="company_id" class="col-md-4 control-label">Customer</label>
 
                                 <div class="col-md-6">
                                     <select name="company_id" class="form-control" required>
@@ -59,7 +47,7 @@
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
                                     <button type="submit" class="btn btn-primary">
-                                        Save Employee
+                                        Save Diversity
                                     </button>
                                 </div>
                             </div>

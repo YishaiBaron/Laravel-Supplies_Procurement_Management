@@ -15,5 +15,12 @@ Route::get('/', function () {
     return redirect()->route('companies.index');
 });
 
+//Route::get('companies/{id}/edit/delete','CompaniesController@destroyDiversity');
+
+
+Route::delete('destroyDiversity/{id}', 'CompaniesController@destroyDiversity');
+
+
 Route::resource('companies', 'CompaniesController');
 Route::resource('employees', 'EmployeesController');
+

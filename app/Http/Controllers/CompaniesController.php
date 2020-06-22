@@ -3,6 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Company;
+use App\Employee;
+
+use Validator;
+
+
+
 use Illuminate\Http\Request;
 
 class CompaniesController extends Controller
@@ -14,13 +20,9 @@ class CompaniesController extends Controller
      */
     public function index()
     {
-        if (request('eager')) {
-            $companies = Company::with('employees')->get();
-        } elseif (request('big')) {
-            $companies = Company::with('employees')->has('employees', '>=', 3)->get();
-        } else {
+      
             $companies = Company::all();
-        }
+        
         return view('companies.index', compact('companies'));
     }
 
@@ -34,6 +36,7 @@ class CompaniesController extends Controller
         return view('companies.create');
     }
 
+
     /**
      * Store a newly created resource in storage.
      *
@@ -42,20 +45,79 @@ class CompaniesController extends Controller
      */
     public function store(Request $request)
     {
-        $company = Company::create($request->only(['name']));
-        if ($request->get('employee1_name') != '') {
+        
+
+
+        
+  
+
+
+        if($request->ajax())
+
+
+
+    
+
+        {
+            $company = Company::create([
+
+                'id' =>  $request->id,
+                'name' => $request->get('name'),
+                'phone_number' => $request->get('phone_number'),
+                'chain' => $request->get('chain'),
+                'address' => $request->get('address'),
+    
+            ]
+            );
+    
+        
+         $rules = array(
+          'nameDiversity.*'  => 'required',
+
+         );
+         $error = Validator::make($request->all(), $rules);
+         if($error->fails())
+         {
+          return response()->json([
+           'error'  => $error->errors()->all()
+          ]);
+         }
+
+
+      $nameDiversity = $request->input('nameDiversity');
+         //$nameDiversity = $request->get(nameDiversity);
+    //        error_log($request->get('nameDiversity'));
+
+         for($count = 0; $count < count($nameDiversity); $count++)
+         {
+         // $data = array(
+
             $company->employees()->create([
-                'name' => $request->get('employee1_name'),
-                'email' => $request->get('employee1_email')
+                'name' => $nameDiversity[$count]
             ]);
+
+     
+
+         }
+
+
+                                                 
+      
+      
+         return response()->json([
+          'success'  => 'Data Added successfully.',
+          'url'=> url('/companies')
+         ]);
+         
+
         }
-        if ($request->get('employee2_name') != '') {
-            $company->employees()->create([
-                'name' => $request->get('employee2_name'),
-                'email' => $request->get('employee2_email')
-            ]);
-        }
-        return redirect()->route('companies.index');
+       
+
+
+
+
+
+
     }
 
     /**
@@ -69,6 +131,9 @@ class CompaniesController extends Controller
         //
     }
 
+
+
+    
     /**
      * Show the form for editing the specified resource.
      *
@@ -78,6 +143,8 @@ class CompaniesController extends Controller
     public function edit($id)
     {
         //
+        $company = Company::find($id);
+        return view('companies.edit', compact('company', 'id'));
     }
 
     /**
@@ -89,7 +156,43 @@ class CompaniesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name'    =>  'required',
+            'phone_number'     =>  'required',
+            'chain'    =>  'required',
+            'address'     =>  'required'
+            
+        ]);
+        $company = Company::find($id);
+        $company->name = $request->get('name');
+        $company->phone_number = $request->get('phone_number');
+        $company->chain = $request->get('chain');
+        $company->address = $request->get('address');
+
+        $employees = $request->input('employees');  //here scores is the input array param 
+
+
+
+
+        foreach($employees as $id => $row){
+          //  error_log($row['id']);
+
+          //  error_log($row['name']);
+
+            $locale = Employee::find($row['id']);
+            $locale->name = $row['name'];
+
+            $locale->save();
+
+        }
+
+        
+
+        $company->save();
+
+
+
+        return redirect()->route('companies.index')->with('success', 'Data Updated');
     }
 
     /**
@@ -100,6 +203,25 @@ class CompaniesController extends Controller
      */
     public function destroy($id)
     {
-        //
+      
+
+        $company = Company::find($id);
+        $company->employees()->delete();
+        $company->delete();
+        return redirect()->route('companies.index')->with('success', 'Data Deleted');
     }
+
+    public function destroyDiversity($id)
+    {
+        $employee = Employee::find($id);
+
+        $employee->delete();
+        return redirect()->route('companies.index')->with('success', 'Data Deleted');
+
+    }
+    
+   
+
+  
+    
 }
